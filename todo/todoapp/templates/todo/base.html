@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My To-Do App{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>My To-Do App</h1>
+    </header>
+    <nav>
+        <a href="{% url 'todo_list' %}">Home</a>
+    </nav>
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <footer>
+        &copy; 2023 My To-Do App
+    </footer>
+</body>
+</html>
