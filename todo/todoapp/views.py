@@ -4,7 +4,7 @@ from .forms import TodoForm
 from django.http import HttpResponse
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'todo/home.html')
 
 def todo_list(request):
     todos = Todo.objects.all()
