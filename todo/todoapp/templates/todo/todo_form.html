@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Create a New To-Do Item</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+<h2>Create a New To-Do</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'todo:todo_list' %}">To-Do List</a>
 {% endblock %}
+

@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <h2>{{ todo.title }}</h2>
-    <p>Created on: {{ todo.created }}</p>
-    <p>Completed: {{ todo.completed }}</p>
+<h2>To-Do Detail</h2>
+<p>Title: {{ todo.title }}</p>
+<p>Due Date: {{ todo.due_date }}</p>
+<p>Description: {{ todo.description }}</p>
+
+<h3>Edit To-Do</h3>
+<a href="{% url 'todo:todo_edit' todo.id %}">Edit This To-Do</a>
+<form method="post">
+    {% csrf_token %}
+    {{ edit_form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+<a href="{% url 'todo:todo_list' %}">Back to To-Do List</a>
 {% endblock %}

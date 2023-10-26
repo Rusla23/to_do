@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Todo
-from .forms import TodoForm
-from django.http import HttpResponse
+from .forms import TodoForm, TodoEditForm
+from django.http import Http404
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'todo/home.html')
@@ -19,7 +20,7 @@ def todo_create(request):
         form = TodoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('todo_list')
+            return redirect('todo:todo_list')
     else:
         form = TodoForm()
     return render(request, 'todo/todo_form.html', {'form': form})
@@ -30,10 +31,24 @@ def todo_update(request, todo_id):
         form = TodoForm(request.POST, instance=todo)
         if form.is_valid():
             form.save()
-            return redirect('todo_list')
+            return redirect('todo:todo_list')
     else:
         form = TodoForm(instance=todo)
     return render(request, 'todo/todo_form.html', {'form': form})
+
+def todo_edit(request, todo_id):
+    todo = get_object_or_404(Todo, pk=todo_id)
+
+    if request.method == 'POST':
+        edit_form = TodoEditForm(request.POST, instance=todo)
+        if edit_form.is_valid():
+            edit_form.save()
+            # Redirect to the to-do detail page after editing
+            return redirect('todo:todo_detail', todo_id=todo_id)
+    else:
+        edit_form = TodoEditForm(instance=todo)
+
+    return render(request, 'todo/todo_edit.html', {'todo': todo, 'edit_form': edit_form})
 
 def todo_delete(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
@@ -42,3 +57,6 @@ def todo_delete(request, todo_id):
         return redirect('todo_list')
     return render(request, 'todo/todo_confirm_delete.html', {'todo': todo})
 
+@login_required
+def my_protected_view(request):
+    return render(request, 'home.html')

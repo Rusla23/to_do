@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit To-Do</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ edit_form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+<a href="{% url 'todo:todo_detail' todo_id=todo.id %}">View Details</a>
+{% endblock %}
