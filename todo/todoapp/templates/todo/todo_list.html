@@ -5,6 +5,8 @@
     {% for todo in todos %}
         <li>
             {{ todo.title }}
+            <a href="{% url 'todo:todo_edit' todo.id %}">Edit</a>
+            {% comment %} <a href="{% url 'todo:view_todo' todo.id %}">View</a> {% endcomment %}
             {% if todo.due_date %}
                 (Due: {{ todo.due_date|date:"F d, Y" }})
             {% endif %}

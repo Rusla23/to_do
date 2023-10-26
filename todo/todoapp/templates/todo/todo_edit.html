@@ -6,5 +6,6 @@
     {{ edit_form.as_p }}
     <button type="submit">Save Changes</button>
 </form>
-<a href="{% url 'todo:todo_detail' todo_id=todo.id %}">View Details</a>
+<a href="{% url 'todo:todo_list' %}">Back to To-Do List</a>
 {% endblock %}
+
