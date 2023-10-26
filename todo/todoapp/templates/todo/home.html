@@ -4,7 +4,7 @@
     <h1>Welcome to your ToDo planner</h1>
     <p>ToDo planner is your personal assistant for time and plans management</p>
 
-    <h2>Upcoming ToDos</h2>
+    <h2>This week ToDos</h2>
     <ul>
         {% for todo in todos_this_week %}
             <li>{{ todo.title }} - {{ todo.due_date|date:"F d, Y" }}</li>
