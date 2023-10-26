@@ -20,10 +20,13 @@
                 <li><a href="/create/">Create To-Do</a></li>
                 <li class="spacer"></li>
                 {% if user.is_authenticated %}
+                    {% if user.is_superuser or user.is_staff %}
+                        <li><a href="{% url "admin:index" %}">Admin</a></li>
+                    {% endif %}
                     {% comment %} <li><a href="{% url "profile" %}">{{ user.username }}</a></li> {% endcomment %}
                     <li><a href="{% url "logout" %}">Logout</a></li>
                 {% else %}
-                    <li><a href="{% url "login" %}">login</a></li>
+                    <li><a href="{% url "login" %}">Login</a></li>
                     {% comment %} <li><a href="{% url "signup" %}"></a></li> {% endcomment %}
                 {% endif %}
             </ul>

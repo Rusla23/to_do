@@ -4,17 +4,21 @@ from .forms import TodoForm, TodoEditForm
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def home(request):
-    # Calculate the start and end dates for this week
+    user = request.user
     today = datetime.now().date()
     next_week = today + timedelta(days=7)
 
-    todos_this_week = Todo.objects.filter(due_date__gte=today, due_date__lt=next_week)
+    todos_this_week = Todo.objects.filter(user=user, due_date__gte=today, due_date__lt=next_week)
 
     return render(request, 'todo/home.html', {
         'todos_this_week': todos_this_week,
     })
+
 
 def todo_list(request):
     todos = Todo.objects.all()
@@ -24,15 +28,19 @@ def todo_list(request):
 #     todo = get_object_or_404(Todo, pk=todo_id)
 #     return render(request, 'todo/todo_detail.html', {'todo': todo})
 
+@login_required
 def todo_create(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            form.save()
+            todo = form.save(commit=False)
+            todo.user = request.user  # Assign the currently logged-in user
+            todo.save()
             return redirect('todo:todo_list')
     else:
         form = TodoForm()
-    return render(request, 'todo/todo_form.html', {'form': form})
+
+    return render(request, 'todo/todo_create.html', {'form': form})
 
 def todo_update(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
