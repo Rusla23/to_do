@@ -73,3 +73,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+ul li.spacer {
+  flex-grow: 1
+}

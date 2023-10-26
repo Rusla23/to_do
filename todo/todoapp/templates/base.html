@@ -18,6 +18,14 @@
                 <li><a href="/home/">Home</a></li>
                 <li><a href="/list/">To-Do List</a></li>
                 <li><a href="/create/">Create To-Do</a></li>
+                <li class="spacer"></li>
+                {% if user.is_authenticated %}
+                    {% comment %} <li><a href="{% url "profile" %}">{{ user.username }}</a></li> {% endcomment %}
+                    <li><a href="{% url "logout" %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url "login" %}">login</a></li>
+                    {% comment %} <li><a href="{% url "signup" %}"></a></li> {% endcomment %}
+                {% endif %}
             </ul>
         </nav>
     </header>
